@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do List</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .task {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        margin-bottom: 5px;
+    }
+
+    .task input[type="checkbox"] {
+        margin-right: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>To-Do List</h1>
+    <input type="text" id="taskInput" placeholder="Enter a task...">
+    <button onclick="addTask()">Add Task</button>
+    <div id="taskList"></div>
+</div>
+
+<script>
+// Function to add a new task
+function addTask() {
+    var taskInput = document.getElementById("taskInput");
+    var taskText = taskInput.value.trim();
+
+    if (taskText !== "") {
+        var taskList = document.getElementById("taskList");
+
+        // Create task container
+        var taskContainer = document.createElement("div");
+        taskContainer.className = "task";
+
+        // Create checkbox
+        var checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+
+        // Create task text
+        var taskTextNode = document.createTextNode(taskText);
+
+        // Append elements
+        taskContainer.appendChild(checkbox);
+        taskContainer.appendChild(taskTextNode);
+        taskList.appendChild(taskContainer);
+
+        // Clear input
+        taskInput.value = "";
+
+        // Save tasks to local storage
+        saveTasks();
+    }
+}
+
+// Function to save tasks to local storage
+function saveTasks() {
+    var taskList = document.getElementById("taskList").innerHTML;
+    localStorage.setItem("tasks", taskList);
+}
+
+// Function to load tasks from local storage
+function loadTasks() {
+    var taskList = localStorage.getItem("tasks");
+    if (taskList) {
+        document.getElementById("taskList").innerHTML = taskList;
+    }
+}
+
+// Load tasks when the page is loaded
+window.onload = function() {
+    loadTasks();
+};
+</script>
+
+</body>
+</html>
